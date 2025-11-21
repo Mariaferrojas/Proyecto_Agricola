@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Productos',
     'movimientos',
+    'Alertas',
     'proveedores.apps.ProveedoresConfig',
     'rest_framework',
     'drf_yasg',
