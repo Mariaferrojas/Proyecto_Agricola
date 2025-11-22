@@ -22,11 +22,16 @@ from .serializers import (
 )
 from .filters import AlertaFilter
 from .services import AlertaService
+from rest_framework.pagination import PageNumberPagination
 
 
 class AlertaViewSet(viewsets.ModelViewSet):
     queryset = Alerta.objects.all()
     permission_classes = [IsAuthenticated]
+    class StandardResultsSetPagination(PageNumberPagination):
+        page_size = 10
+
+    pagination_class = StandardResultsSetPagination
     filter_backends = [DjangoFilterBackend]
     filterset_class = AlertaFilter
 

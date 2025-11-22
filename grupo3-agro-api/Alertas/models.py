@@ -229,6 +229,12 @@ class ConfiguracionAlerta(models.Model):
         help_text="Porcentaje sobre stock mínimo para considerar crítico",
     )
 
+    # Permitir repetición de alertas del mismo tipo para un producto
+    repetible = models.BooleanField(
+        default=True,
+        help_text="Indica si pueden generarse múltiples alertas del mismo tipo para un producto",
+    )
+
     # Frecuencia de revisión
     intervalo_revision_horas = models.PositiveIntegerField(
         default=24,

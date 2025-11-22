@@ -5,6 +5,7 @@ import logging
 from .models import Alerta, ConfiguracionAlerta, HistorialAlerta
 from Productos.models import Producto
 from movimientos.models import Movimiento
+from decimal import Decimal
 
 logger = logging.getLogger(__name__)
 
@@ -307,9 +308,9 @@ class AlertaService:
         """Determinar nivel de alerta basado en porcentaje de stock"""
         if porcentaje_stock <= 10:
             return "URGENTE"
-        elif porcentaje_stock <= config.porcentaje_stock_critico:
+        elif porcentaje_stock <= float(config.porcentaje_stock_critico):
             return "ALTA"
-        elif porcentaje_stock <= config.porcentaje_stock_critico * 1.5:
+        elif porcentaje_stock <= float(config.porcentaje_stock_critico) * float(Decimal('1.5')):
             return "MEDIA"
         else:
             return "BAJA"

@@ -16,16 +16,24 @@ def crear_alerta_stock(sender, instance, created, **kwargs):
     """Crear alerta automática si el stock es crítico"""
     if instance.necesita_reposicion:
         try:
-            from alertas.models import Alerta
-            Alerta.objects.get_or_create(
-                producto=instance,
-                tipo='STOCK_CRITICO',
-                defaults={
-                    'mensaje': f'Stock crítico para {instance.nombre}. Stock actual: {instance.stock_actual} {instance.unidad_medida}',
-                    'nivel': 'ALTA',
-                    'activa': True
-                }
-            )
+            from Alertas.models import Alerta, ConfiguracionAlerta
+
+            # Solo crear alerta automática si la configuración permite autogeneración
+            config = ConfiguracionAlerta.objects.filter(
+                tipo_alerta='STOCK_CRITICO', activa=True, auto_generar=True
+            ).first()
+
+            if config:
+                Alerta.objects.get_or_create(
+                    producto=instance,
+                    tipo='STOCK_CRITICO',
+                    defaults={
+                        'mensaje': f'Stock crítico para {instance.nombre}. Stock actual: {instance.stock_actual} {instance.unidad_medida}',
+                        'nivel': 'ALTA',
+                        'activa': True,
+                        'auto_generada': True,
+                    }
+                )
         except ImportError:
-        
+            # Si Alertas no está disponible, ignorar para evitar romper la creación de productos
             pass

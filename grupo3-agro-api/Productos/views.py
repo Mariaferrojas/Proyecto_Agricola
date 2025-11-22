@@ -17,6 +17,7 @@ from .serializers import (
     HistorialPrecioSerializer
 )
 from .filters import ProductoFilter
+from rest_framework.pagination import PageNumberPagination
 
 class CategoriaProductoViewSet(viewsets.ModelViewSet):
     queryset = CategoriaProducto.objects.all()
@@ -54,12 +55,16 @@ class CategoriaProductoViewSet(viewsets.ModelViewSet):
 
 class ProductoViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
+    class StandardResultsSetPagination(PageNumberPagination):
+        page_size = 10
+
+    pagination_class = StandardResultsSetPagination
     filter_backends = [DjangoFilterBackend]
     filterset_class = ProductoFilter
     
     def get_queryset(self):
         queryset = Producto.objects.select_related(
-            'categoria', 'proveedor_principal', 'creado_por'
+            'categoria', 'creado_por'
         ).prefetch_related('historial_precios')
         
         # Solo productos activos por defecto, a menos que se especifique lo contrario
