@@ -37,7 +37,7 @@ Incluye endpoint especial para:
 ## 📁 Estructura del Proyecto
 
 ```
-├── grupo3-agro-api/
+├── PROYECTO_AGRICOLA/
 │── .venv
 │   ├── Include
 │   ├── Lib
@@ -175,4 +175,5 @@ DB_PORT=
 **Integrantes:** desarrollan una app independiente siguiendo requisitos
 
 **Todos:** pruebas, documentación, control de versiones
+
 
