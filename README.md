@@ -46,8 +46,8 @@ Incluye endpoint especial para:
 │
 |
 ├── Alertas/
-|   |  ├── management/Commands
-|        ├── crear_configuraciones_iniciales.py
+|    ├── management/Commands
+|       ├── crear_configuraciones_iniciales.py
 │   ├── _init_.py
 │   ├── admin.py
 │   ├── apps.py
@@ -62,8 +62,8 @@ Incluye endpoint especial para:
 |
 |
 ├── Productos/
-|   |  ├── management/Commands
-|         ├── crear_configuraciones_iniciales.py
+|    ├── management/Commands
+|       ├── crear_configuraciones_iniciales.py
 │   ├── _init_.py
 │   ├── admin.py
 │   ├── apps.py
@@ -107,7 +107,9 @@ Incluye endpoint especial para:
 │
 │
 ├── staticfiles/
-|   ├──
+|   ├── admin
+|   ├── drf-yasg
+|   ├── rest_framework
 |
 ├── .env
 ├── .env.example
@@ -137,41 +139,64 @@ DB_PORT=
 
 ## 🧪 Endpoints por Aplicación
 
-1️⃣ Productos
-- POST `/api/productos/`
-- GET `/api/productos/`
-- GET `/api/productos/{id}/`
-- PUT `/api/productos/{id}/`
-- DELETE `/api/productos/{id}/`
-- GET `/api/productos/?categoria=semillas`
-- GET `/api/productos/?stock_minimo=true`
+1️⃣ `Productos — /api/productos/`
+***Categorías***
+- /api/productos/categorias/
+- /api/productos/categorias/{id}/
+- /api/productos/categorias/{id}/productos/
 
-2️⃣ Movimientos
-- POST `/api/movimientos/`
-- GET `/api/movimientos/`
-- GET `/api/movimientos/{id}/`
-- PUT `/api/movimientos/{id}/`
-- DELETE `/api/movimientos/{id}/`
-- GET `/api/movimientos/?tipo=entrada`
-- GET `/api/movimientos/?fecha_inicio&fecha_fin`
-- Endpoint lógico: `/api/movimientos/resumen/`
+***Productos***
+- /api/productos/productos/
+- /api/productos/productos/{id}/
+- /api/productos/productos/{id}/historial_precios/
 
-3️⃣ Proveedores
-- POST `/api/proveedores/`
-- GET `/api/proveedores/`
-- GET `/api/proveedores/{id}/`
-- PUT `/api/proveedores/{id}/`
-- DELETE `/api/proveedores/{id}/`
-- GET `/api/proveedores/?pais=colombia`
+***Acciones***
+- /api/productos/productos/stock_critico/
+- /api/productos/productos/stock_agotado/
+- /api/productos/productos/proximos_vencer/
+- /api/productos/productos/resumen_inventario/
+- /api/productos/productos/exportar_csv/
 
-4️⃣ Alertas de Stock
-- GET `/api/alertas/`
-- GET `/api/alertas/activas/`
-- GET `/api/alertas/producto/{id}/`
-- DELETE `/api/alertas/{id}/`
-- Endpoint especial:
-`/api/alertas/criticos/` → lista productos con stock crítico
-`/api/alertas/generar/` → fuerza generación de alertas
+***Historial de precios***
+- /api/productos/historial-precios/
+- /api/productos/historial-precios/{id}/
+
+2️⃣ `Movimientos  — /api/movimientos/`
+- /api/movimientos/movimientos/
+- /api/movimientos/movimientos/{id}/
+
+3️⃣ `Proveedores — /api/proveedores/`
+- /api/proveedores/
+- /api/proveedores/{id}/
+
+4️⃣ `Alertas de Stock — /api/alertas/`
+- /api/alertas/alertas/
+- /api/alertas/alertas/{id}/
+- /api/alertas/alertas/{id}/marcar_leida/
+- /api/alertas/alertas/{id}/marcar_atendida/
+- /api/alertas/alertas/{id}/descartar/
+- /api/alertas/alertas/{id}/reactivar/
+- /api/alertas/alertas/crear_manual/
+- /api/alertas/alertas/revisar_automaticas/
+- /api/alertas/alertas/resumen/
+- /api/alertas/alertas/pendientes_urgentes/
+- /api/alertas/alertas/limpiar_antiguas/
+
+***Configuraciones***
+- /api/alertas/configuraciones/
+- /api/alertas/configuraciones/{id}/
+- /api/alertas/configuraciones/resetear_configuraciones/
+
+***Historial***
+- /api/alertas/historial/
+- /api/alertas/historial/{id}/
+
+5️⃣ `Principal (root)`
+- /admin/
+- /swagger/
+- /redoc/
+- /swagger.json
+- /swagger.yaml
 
 ## 🧭 Flujo de Trabajo con Git
 - `Ramas`
@@ -186,11 +211,12 @@ DB_PORT=
 - Se actualiza main totalmente funcional
 
 ## 👥 Roles del Equipo
-**Líder:** configura proyecto base, estructura, CI, revisa PRs
+**Líder-Maria Fernanda Rojas:** configura proyecto base, estructura, CI, revisa PRs
 
-**Integrantes:** desarrollan una app independiente siguiendo requisitos
+**Integrantes-Hugo Mancera, Angelica Garcia:** desarrollan una app independiente 
 
 **Todos:** pruebas, documentación, control de versiones
+
 
 
 
