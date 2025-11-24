@@ -37,29 +37,52 @@ Incluye endpoint especial para:
 ## 📁 Estructura del Proyecto
 
 ```
-├── PROYECTO_AGRICOLA/
+├── Proyecto_Agricola/
 │── .venv
 │   ├── Include
 │   ├── Lib
 │   ├── .gitignore
 │   ├── pyvenv.cfg
 │
+|
+├── Alertas/
+|   |  ├── management/Commands
+|        ├── crear_configuraciones_iniciales.py
+│   ├── _init_.py
+│   ├── admin.py
+│   ├── apps.py
+|   ├── filters.py
+│   ├── models.py
+│   ├── serializers.py
+|   ├── services.py
+|   ├── signals.py
+|   ├── tests.py
+│   ├── urls.py
+│   ├── views.py
+|
+|
+├── Productos/
+|   |  ├── management/Commands
+|         ├── crear_configuraciones_iniciales.py
+│   ├── _init_.py
+│   ├── admin.py
+│   ├── apps.py
+|   ├── filters.py
+│   ├── models.py
+│   ├── serializers.py
+|   ├── signals.py
+|   ├── tests.py
+│   ├── urls.py
+│   ├── views.py
+|
+|
 ├── config/
 │   ├── _init_.py
 │   ├── asgi.py
 │   ├── settings.py
 │   ├── urls.py
 │   ├── wsgi.py
-│
-├── productos/
-│   ├── _init_.py
-│   ├── admin.py
-│   ├── apps.py
-│   ├── models.py
-│   ├── serializers.py
-│   ├── urls.py
-│   ├── views.py
-│   ├── tests.py
+|
 │
 ├── movimientos/
 │   ├── _init_.py
@@ -67,10 +90,10 @@ Incluye endpoint especial para:
 │   ├── apps.py
 │   ├── models.py
 │   ├── serializers.py
+|   ├── tests.py
 │   ├── urls.py
 │   ├── views.py
-│   ├── signals.py
-│   ├── tests.py
+│   
 │
 ├── proveedores/
 │   ├── _init_.py
@@ -78,21 +101,14 @@ Incluye endpoint especial para:
 │   ├── apps.py
 │   ├── models.py
 │   ├── serializers.py
+|   ├── tests.py
 │   ├── urls.py
 │   ├── views.py
-│   ├── tests.py
 │
-├── alertas/
-│   ├── _init_.py
-│   ├── admin.py
-│   ├── apps.py
-│   ├── models.py
-│   ├── serializers.py
-│   ├── urls.py
-│   ├── views.py
-│   ├── signals.py
-│   ├── tests.py
 │
+├── staticfiles/
+|   ├──
+|
 ├── .env
 ├── .env.example
 ├── manage.py
@@ -175,5 +191,6 @@ DB_PORT=
 **Integrantes:** desarrollan una app independiente siguiendo requisitos
 
 **Todos:** pruebas, documentación, control de versiones
+
 
 
