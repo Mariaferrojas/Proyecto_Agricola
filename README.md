@@ -131,7 +131,152 @@ DB_HOST=
 DB_PORT=
 ```
 
-## 📘 Diagrama de la base de datos general y por aplicación
+## 📘 Diagrama de la base de datos general
+```bash
++---------------------+        +----------------------+        +----------------------+
+|   CategoriaProducto | 1 ---- |      Producto        | ---- N |     Proveedor        |
++---------------------+        +----------------------+        +----------------------+
+| id (PK)             |        | id (PK)              |        | id (PK)              |
+| nombre              |        | nombre               |        | nombre               |
+| descripcion         |        | categoria_id (FK)    |        | telefono             |
+|                     |        | stock_minimo         |        | email                |
+|                     |        | stock_maximo         |        | direccion            |
++---------------------+        | stock_actual         |        | ciudad               |
+                               | fecha_vencimiento    |        | activo               |
+                               +----------------------+        +----------------------+
+                                         |
+                                         | 1
+                                         |
+                                         N
+                               +----------------------+
+                               |     Movimiento       |
+                               +----------------------+
+                               | id (PK)              |
+                               | producto_id (FK)     |
+                               | tipo                 |
+                               | cantidad             |
+                               | fecha                |
+                               +----------------------+
+                                         |
+                                         | 1
+                                         |
+                                         N
+                               +----------------------+
+                               |       Alerta         |
+                               +----------------------+
+                               | id (PK)              |
+                               | producto_id (FK)     |
+                               | movimiento_id (FK)   |
+                               | nivel_stock          |
+                               | estado               |
+                               | tipo_alerta          |
+                               | fecha                |
+                               +----------------------+
+```
+***Explicación del diagrama general***
+- El diagrama general muestra cómo se relacionan todas las aplicaciones del sistema. Un producto pertenece a una categoría y puede estar asociado a uno o varios proveedores. A partir de los productos se generan los movimientos (entradas o salidas), y a su vez, las alertas se crean en función del stock o los movimientos registrados. Representa toda la estructura principal del proyecto.
+
+## 📘 Diagrama de la base de datos por aplicacio 
+
+`Productos`
+```bash
+Tabla: CategoriaProducto
+------------------------------------
+id (PK)
+nombre
+descripcion
+
+
+Tabla: Producto
+------------------------------------
+id (PK)
+nombre
+descripcion
+categoria_id (FK → CategoriaProducto.id)
+unidad_medida
+stock_minimo
+stock_maximo
+stock_actual
+precio_compra
+precio_venta
+fecha_vencimiento
+activo
+fecha_creacion
+fecha_actualizacion
+
+
+Tabla: HistorialPrecio
+------------------------------------
+id (PK)
+producto_id (FK → Producto.id)
+precio_anterior
+nuevo_precio
+fecha_cambio
+```
+**Explicación del diagrama Prodcuto**
+- El módulo de Productos maneja toda la información relacionada con los insumos agrícolas: categorías, precios, unidades de medida y control de stock. También lleva un historial de precios para registrar cualquier cambio. Es la base del inventario.
+
+`Movimientos`
+```bash
+Tabla: Movimiento
+------------------------------------
+id (PK)
+producto_id (FK → Producto.id)
+tipo  (entrada/salida)
+cantidad
+fecha
+observacion
+
+
+Tabla: MovimientoExtra
+------------------------------------
+id (PK)
+movimiento_id (FK → Movimiento.id)
+usuario_responsable
+ubicacion
+notas_adicionales
+```
+***Explicación del diagrama Movimientos***
+Este módulo registra todas las entradas y salidas de productos en el inventario. Permite controlar cuántas unidades ingresan o salen y mantiene un registro adicional con información opcional como ubicación o responsable del movimiento.
+
+`Alertas`
+```bash
+Tabla: Alerta
+------------------------------------
+id (PK)
+producto_id (FK → Producto.id)
+movimiento_id (FK → Movimiento.id)
+nivel_stock
+tipo_alerta
+estado
+fecha_creacion
+fecha_actualizacion
+auto_generada
+repetible
+notas
+
+
+Tabla: ConfiguracionAlerta
+------------------------------------
+id (PK)
+activo
+dias_vencimiento
+umbral_stock
+notificaciones_email
+fecha_actualizacion
+
+
+Tabla: HistorialAlerta
+------------------------------------
+id (PK)
+alerta_id (FK → Alerta.id)
+accion
+usuario
+fecha
+comentario
+```
+***Explicación del módulo Alertas***
+Este módulo administra las alertas del sistema, como stock bajo, vencimiento próximo o movimientos críticos. Incluye una configuración global para automatizar notificaciones y un historial para llevar control de todas las acciones realizadas sobre cada alerta. 
 
 
 ## 📄 Documentación Swagger
@@ -216,6 +361,7 @@ DB_PORT=
 **Integrantes-Hugo Mancera, Angelica Garcia:** desarrollan una app independiente 
 
 **Todos:** pruebas, documentación, control de versiones
+
 
 
 
