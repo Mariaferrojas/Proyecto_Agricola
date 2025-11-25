@@ -22,7 +22,7 @@ from rest_framework.pagination import PageNumberPagination
 class CategoriaProductoViewSet(viewsets.ModelViewSet):
     queryset = CategoriaProducto.objects.all()
     serializer_class = CategoriaProductoSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = []  # Sin autenticación requerida
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['tipo', 'activo']
     
@@ -54,7 +54,7 @@ class CategoriaProductoViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 class ProductoViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
+    permission_classes = []  # Sin autenticación requerida
     class StandardResultsSetPagination(PageNumberPagination):
         page_size = 10
 
@@ -63,9 +63,7 @@ class ProductoViewSet(viewsets.ModelViewSet):
     filterset_class = ProductoFilter
     
     def get_queryset(self):
-        queryset = Producto.objects.select_related(
-            'categoria', 'creado_por'
-        ).prefetch_related('historial_precios')
+        queryset = Producto.objects.select_related('categoria')
         
         # Solo productos activos por defecto, a menos que se especifique lo contrario
         if self.request.query_params.get('incluir_inactivos') != 'true':
@@ -79,7 +77,24 @@ class ProductoViewSet(viewsets.ModelViewSet):
         return ProductoDetailSerializer
     
     def perform_create(self, serializer):
-        serializer.save(creado_por=self.request.user)
+        # Guardar sin usuario si no está autenticado
+        if self.request.user.is_authenticated:
+            serializer.save(creado_por=self.request.user)
+        else:
+            serializer.save()
+    
+    def create(self, request, *args, **kwargs):
+        """Maneja la creación con validación"""
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        
+        try:
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        except Exception as e:
+            return Response({'error': f'Error al crear producto: {str(e)}'}, 
+                          status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
     @action(detail=False, methods=['get'])
     def stock_critico(self, request):
@@ -230,9 +245,9 @@ class ProductoViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 class HistorialPrecioViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = HistorialPrecio.objects.select_related('producto', 'cambiado_por')
+    queryset = HistorialPrecio.objects.select_related('producto')
     serializer_class = HistorialPrecioSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = []  # Sin autenticación requerida
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['producto']
     

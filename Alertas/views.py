@@ -16,7 +16,7 @@ from .serializers import (
     AlertaListSerializer,
     AlertaDetailSerializer,
     ConfiguracionAlertaSerializer,
-    HistorialAlertaSerializer,
+    HistorialAlertaSerializer, 
     AlertaStatsSerializer,
     CrearAlertaManualSerializer,
 )
@@ -27,7 +27,7 @@ from rest_framework.pagination import PageNumberPagination
 
 class AlertaViewSet(viewsets.ModelViewSet):
     queryset = Alerta.objects.all()
-    permission_classes = [IsAuthenticated]
+    permission_classes = []  # Sin autenticación requerida
     class StandardResultsSetPagination(PageNumberPagination):
         page_size = 10
 
@@ -265,7 +265,7 @@ class AlertaViewSet(viewsets.ModelViewSet):
 class ConfiguracionAlertaViewSet(viewsets.ModelViewSet):
     queryset = ConfiguracionAlerta.objects.all()
     serializer_class = ConfiguracionAlertaSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = []  # Sin autenticación requerida
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["activa", "auto_generar"]
 
@@ -294,7 +294,7 @@ class ConfiguracionAlertaViewSet(viewsets.ModelViewSet):
 
 class HistorialAlertaViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = HistorialAlertaSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = []  # Sin autenticación requerida
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["alerta", "modificado_por"]
 

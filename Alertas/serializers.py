@@ -6,15 +6,15 @@ from .models import Alerta, ConfiguracionAlerta, HistorialAlerta
 class AlertaListSerializer(serializers.ModelSerializer):
     """Serializer para listado de alertas (optimizado)"""
 
-    producto_nombre = serializers.CharField(source="producto.nombre", read_only=True)
-    producto_codigo = serializers.CharField(source="producto.codigo", read_only=True)
+    producto_nombre = serializers.CharField(source="producto.nombre", read_only=True, allow_null=True)
+    producto_codigo = serializers.CharField(source="producto.codigo", read_only=True, allow_null=True)
     tipo_display = serializers.CharField(source="get_tipo_display", read_only=True)
     nivel_display = serializers.CharField(source="get_nivel_display", read_only=True)
     estado_display = serializers.CharField(source="get_estado_display", read_only=True)
     dias_pendiente = serializers.IntegerField(read_only=True)
     es_urgente = serializers.BooleanField(read_only=True)
     creada_por_username = serializers.CharField(
-        source="creada_por.username", read_only=True
+        source="creada_por.username", read_only=True, allow_null=True
     )
 
     class Meta:
@@ -44,13 +44,13 @@ class AlertaListSerializer(serializers.ModelSerializer):
 class AlertaDetailSerializer(serializers.ModelSerializer):
     """Serializer completo para detalle de alerta"""
 
-    producto_nombre = serializers.CharField(source="producto.nombre", read_only=True)
-    producto_codigo = serializers.CharField(source="producto.codigo", read_only=True)
+    producto_nombre = serializers.CharField(source="producto.nombre", read_only=True, allow_null=True)
+    producto_codigo = serializers.CharField(source="producto.codigo", read_only=True, allow_null=True)
     producto_stock_actual = serializers.DecimalField(
-        source="producto.stock_actual", read_only=True, max_digits=10, decimal_places=2
+        source="producto.stock_actual", read_only=True, max_digits=10, decimal_places=2, allow_null=True
     )
     producto_stock_minimo = serializers.DecimalField(
-        source="producto.stock_minimo", read_only=True, max_digits=10, decimal_places=2
+        source="producto.stock_minimo", read_only=True, max_digits=10, decimal_places=2, allow_null=True
     )
     tipo_display = serializers.CharField(source="get_tipo_display", read_only=True)
     nivel_display = serializers.CharField(source="get_nivel_display", read_only=True)
@@ -59,13 +59,13 @@ class AlertaDetailSerializer(serializers.ModelSerializer):
     es_urgente = serializers.BooleanField(read_only=True)
     puede_auto_resolver = serializers.BooleanField(read_only=True)
     creada_por_username = serializers.CharField(
-        source="creada_por.username", read_only=True
+        source="creada_por.username", read_only=True, allow_null=True
     )
     leida_por_username = serializers.CharField(
-        source="leida_por.username", read_only=True
+        source="leida_por.username", read_only=True, allow_null=True
     )
     atendida_por_username = serializers.CharField(
-        source="atendida_por.username", read_only=True
+        source="atendida_por.username", read_only=True, allow_null=True
     )
 
     class Meta:
@@ -123,7 +123,8 @@ class AlertaDetailSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         # Trackear cambios de estado
-        usuario = self.context["request"].user
+        request = self.context.get("request")
+        usuario = request.user if request and request.user.is_authenticated else None
         estado_anterior = instance.estado
         nuevo_estado = validated_data.get("estado", estado_anterior)
 
@@ -160,7 +161,7 @@ class ConfiguracionAlertaSerializer(serializers.ModelSerializer):
         source="get_tipo_alerta_display", read_only=True
     )
     actualizado_por_username = serializers.CharField(
-        source="actualizado_por.username", read_only=True
+        source="actualizado_por.username", read_only=True, allow_null=True
     )
 
     class Meta:
@@ -178,13 +179,15 @@ class ConfiguracionAlertaSerializer(serializers.ModelSerializer):
         return value
 
     def update(self, instance, validated_data):
-        validated_data["actualizado_por"] = self.context["request"].user
+        request = self.context.get("request")
+        if request and request.user.is_authenticated:
+            validated_data["actualizado_por"] = request.user
         return super().update(instance, validated_data)
 
 
 class HistorialAlertaSerializer(serializers.ModelSerializer):
     modificado_por_username = serializers.CharField(
-        source="modificado_por.username", read_only=True
+        source="modificado_por.username", read_only=True, allow_null=True
     )
 
     class Meta:

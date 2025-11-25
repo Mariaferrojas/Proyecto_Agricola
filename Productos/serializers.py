@@ -26,8 +26,8 @@ class CategoriaProductoSerializer(serializers.ModelSerializer):
 class ProductoListSerializer(serializers.ModelSerializer):
     """Serializer para listado de productos (optimizado)"""
 
-    categoria_nombre = serializers.CharField(source="categoria.nombre", read_only=True)
-    categoria_tipo = serializers.CharField(source="categoria.tipo", read_only=True)
+    categoria_nombre = serializers.CharField(source="categoria.nombre", read_only=True, allow_null=True)
+    categoria_tipo = serializers.CharField(source="categoria.tipo", read_only=True, allow_null=True)
     estado_stock = serializers.CharField(read_only=True)
     necesita_reposicion = serializers.BooleanField(read_only=True)
     valor_inventario = serializers.DecimalField(
@@ -60,8 +60,8 @@ class ProductoListSerializer(serializers.ModelSerializer):
 class ProductoDetailSerializer(serializers.ModelSerializer):
     """Serializer completo para detalle de producto"""
 
-    categoria_nombre = serializers.CharField(source="categoria.nombre", read_only=True)
-    categoria_tipo = serializers.CharField(source="categoria.tipo", read_only=True)
+    categoria_nombre = serializers.CharField(source="categoria.nombre", read_only=True, allow_null=True)
+    categoria_tipo = serializers.CharField(source="categoria.tipo", read_only=True, allow_null=True)
     estado_stock = serializers.CharField(read_only=True)
     necesita_reposicion = serializers.BooleanField(read_only=True)
     valor_inventario = serializers.DecimalField(
@@ -70,10 +70,10 @@ class ProductoDetailSerializer(serializers.ModelSerializer):
     dias_vencimiento = serializers.IntegerField(read_only=True)
     proximo_vencimiento = serializers.CharField(read_only=True)
     proveedor_nombre = serializers.CharField(
-        source="proveedor_principal.nombre", read_only=True
+        source="proveedor_principal.nombre", read_only=True, allow_null=True
     )
     creado_por_username = serializers.CharField(
-        source="creado_por.username", read_only=True
+        source="creado_por.username", read_only=True, allow_null=True
     )
 
     class Meta:
@@ -164,12 +164,13 @@ class ProductoDetailSerializer(serializers.ModelSerializer):
         return data
 
     def create(self, validated_data):
-
-        validated_data["creado_por"] = self.context["request"].user
+        # Solo agregar usuario si está autenticado
+        request = self.context.get("request")
+        if request and request.user.is_authenticated:
+            validated_data["creado_por"] = request.user
         return super().create(validated_data)
 
     def update(self, instance, validated_data):
-
         if "precio_compra" in validated_data or "precio_venta" in validated_data:
             precio_compra_anterior = instance.precio_compra
             precio_venta_anterior = instance.precio_venta
@@ -180,15 +181,19 @@ class ProductoDetailSerializer(serializers.ModelSerializer):
                 precio_compra_anterior != producto.precio_compra
                 or precio_venta_anterior != producto.precio_venta
             ):
-
-                HistorialPrecio.objects.create(
-                    producto=producto,
-                    precio_compra_anterior=precio_compra_anterior,
-                    precio_compra_nuevo=producto.precio_compra,
-                    precio_venta_anterior=precio_venta_anterior,
-                    precio_venta_nuevo=producto.precio_venta,
-                    cambiado_por=self.context["request"].user,
-                )
+                # Solo registrar historial si hay usuario autenticado
+                request = self.context.get("request")
+                historial_data = {
+                    "producto": producto,
+                    "precio_compra_anterior": precio_compra_anterior,
+                    "precio_compra_nuevo": producto.precio_compra,
+                    "precio_venta_anterior": precio_venta_anterior,
+                    "precio_venta_nuevo": producto.precio_venta,
+                }
+                if request and request.user.is_authenticated:
+                    historial_data["cambiado_por"] = request.user
+                
+                HistorialPrecio.objects.create(**historial_data)
 
             return producto
 
@@ -198,7 +203,7 @@ class ProductoDetailSerializer(serializers.ModelSerializer):
 class HistorialPrecioSerializer(serializers.ModelSerializer):
     producto_nombre = serializers.CharField(source="producto.nombre", read_only=True)
     cambiado_por_username = serializers.CharField(
-        source="cambiado_por.username", read_only=True
+        source="cambiado_por.username", read_only=True, allow_null=True
     )
 
     class Meta:
