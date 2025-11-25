@@ -285,6 +285,7 @@ Este módulo administra las alertas del sistema, como stock bajo, vencimiento pr
 ## 🧪 Endpoints por Aplicación
 
 1️⃣ `Productos — /api/productos/`
+
 ***Categorías***
 - /api/productos/categorias/
 - /api/productos/categorias/{id}/
@@ -356,11 +357,12 @@ Este módulo administra las alertas del sistema, como stock bajo, vencimiento pr
 - Se actualiza main totalmente funcional
 
 ## 👥 Roles del Equipo
-**Líder-Maria Fernanda Rojas:** configura proyecto base, estructura, CI, revisa PRs
+**Líder - Maria Fernanda Rojas:** configura proyecto base, estructura, CI, revisa PRs
 
-**Integrantes-Hugo Mancera, Angelica Garcia:** desarrollan una app independiente 
+**Integrantes - Hugo Mancera - Angelica Garcia:** desarrollan una app independiente 
 
 **Todos:** pruebas, documentación, control de versiones
+
 
 
 
