@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Productos',
     'movimientos',
-    'Alertas',
+    'Alertas.apps.AlertasConfig',
     'proveedores.apps.ProveedoresConfig',
     'rest_framework',
     'drf_yasg',
@@ -84,7 +84,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'grupo3_agro',
         'USER': 'root',
-        'PASSWORD': '',
+        'PASSWORD': '123',
         'HOST': 'localhost',
         'PORT': '3306',
     }
