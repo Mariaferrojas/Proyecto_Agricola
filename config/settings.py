@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import csv
 from pathlib import Path
 from decouple import config
 
@@ -91,7 +92,7 @@ DATABASES = {
         'PORT': '3306',
     }
 }
-
+ALLOWED_HOSTS =config('ALLOWED_HOST', default='localhost,127.0.0.1,.onrender.com',cast=csv())
 
 
 # Password validation
