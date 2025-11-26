@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 =======
 # 🌾 Sistema de Inventario Agrícola Inteligente
 
@@ -365,6 +365,7 @@ Este módulo administra las alertas del sistema, como stock bajo, vencimiento pr
 
 **Todos:** pruebas, documentación, control de versiones
 >>>>>>> 050773e7c21fa917e6e7cb5a5ff02c86a62ceaf2
+
 
 
 
