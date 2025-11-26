@@ -34,7 +34,7 @@ Incluye endpoint especial para:
 - drf-yasg (Swagger)
 - Base de datos (SQLite, PostgreSQL o la que el grupo defina)
 
-## 🪫 Instalación y Ejecución del Proyecto
+## 🔌 Instalación y Ejecución del Proyecto
 ### 1. Clonar el repositorio
 ```bash
 git clone https://github.com/Mariaferrojas/Proyecto_Agricola.git
@@ -204,7 +204,7 @@ DB_PORT=
 ***Explicación del diagrama general***
 - El diagrama general muestra cómo se relacionan todas las aplicaciones del sistema. Un producto pertenece a una categoría y puede estar asociado a uno o varios proveedores. A partir de los productos se generan los movimientos (entradas o salidas), y a su vez, las alertas se crean en función del stock o los movimientos registrados. Representa toda la estructura principal del proyecto.
 
-## 📘 Diagrama de la base de datos por aplicacio 
+## 📐 Diagrama de la base de datos por aplicacio 
 
 `Productos`
 ```bash
@@ -406,6 +406,7 @@ fecha_creacion
 **Integrantes - Hugo Mancera - Angelica Garcia:** desarrollan una app independiente 
 
 **Todos:** pruebas, documentación, control de versiones
+
 
 
 
