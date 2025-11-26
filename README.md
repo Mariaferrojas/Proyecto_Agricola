@@ -161,6 +161,9 @@ DB_PORT=
 ```
 
 ## 📘 Diagrama de la base de datos general
+
+![Diagrama de la base de datos general](./img/WhatsApp%20Image%202025-11-26%20at%203.24.11%20PM.jpeg)
+
 ```bash
 +---------------------+        +----------------------+        +----------------------+
 |   CategoriaProducto | 1 ---- |      Producto        | ---- N |     Proveedor        |
