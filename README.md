@@ -1,5 +1,3 @@
-
-=======
 # 🌾 Sistema de Inventario Agrícola Inteligente
 
 ## 💡 Descripción del Proyecto
@@ -35,6 +33,34 @@ Incluye endpoint especial para:
 - django-environ o python-decouple
 - drf-yasg (Swagger)
 - Base de datos (SQLite, PostgreSQL o la que el grupo defina)
+
+## 🪫 Instalación y Ejecución del Proyecto
+### 1. Clonar el repositorio
+```bash
+git clone https://github.com/Mariaferrojas/Proyecto_Agricola.git
+```
+### 2. Crear el entorno virtual
+```bash
+python -m venv .venv
+source .venv/Scripts/activate
+```
+### 3. Instalar dependencias
+```bash
+pip install -r requirements.txt
+```
+### 4. Configurar el archivo .env
+```bash
+cp .env.example .env
+```
+### 5. Aplicar migraciones
+```bash
+python manage.py migrate
+```
+### 6. Ejecutar el servidor
+```bash
+python manage.py runserver
+```
+### 7. Acceder a la documentación 
 
 ## 📁 Estructura del Proyecto
 
@@ -280,6 +306,22 @@ comentario
 ***Explicación del módulo Alertas***
 Este módulo administra las alertas del sistema, como stock bajo, vencimiento próximo o movimientos críticos. Incluye una configuración global para automatizar notificaciones y un historial para llevar control de todas las acciones realizadas sobre cada alerta. 
 
+`Provedores`
+```bash
+Tabla: Proveedor
+------------------------------------
+id (PK)
+nombre
+nombre_contacto
+telefono
+email
+direccion
+ciudad
+activo
+fecha_creacion
+```
+***Explicación del módulo Provedores***
+- El módulo de Proveedores almacena los datos de las empresas o personas que suministran los productos agrícolas. Aquí se centraliza la información de contacto, estado y ubicación de cada proveedor.
 
 ## 📄 Documentación Swagger
 -
@@ -364,11 +406,6 @@ Este módulo administra las alertas del sistema, como stock bajo, vencimiento pr
 **Integrantes - Hugo Mancera - Angelica Garcia:** desarrollan una app independiente 
 
 **Todos:** pruebas, documentación, control de versiones
->>>>>>> 050773e7c21fa917e6e7cb5a5ff02c86a62ceaf2
-
-
-
-
 
 
 
