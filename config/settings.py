@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import csv
 from logging import config
 from pathlib import Path
-from decouple import config as env_config,Csv
+from decouple import config as env_config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,9 +26,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'fdsdfhdfjkjfhjk'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=True, cast=bool)
+DEBUG = True
 
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -93,11 +92,7 @@ DATABASES = {
         'PORT': '3306',
     }
 }
-ALLOWED_HOSTS = env_config(
-    'ALLOWED_HOSTS',
-    default='localhost,127.0.0.1,.onrender.com',
-    cast=Csv()
-)
+ALLOWED_HOSTS = ('localhost' ,'127.0.0.1','.onrender.com')
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
