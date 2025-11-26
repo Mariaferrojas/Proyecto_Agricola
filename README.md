@@ -54,6 +54,7 @@ cp .env.example .env
 ```
 ### 5. Aplicar migraciones
 ```bash
+python manage.py makemigrations
 python manage.py migrate
 ```
 ### 6. Ejecutar el servidor
@@ -406,6 +407,7 @@ fecha_creacion
 **Integrantes - Hugo Mancera - Angelica Garcia:** desarrollan una app independiente 
 
 **Todos:** pruebas, documentación, control de versiones
+
 
 
 
