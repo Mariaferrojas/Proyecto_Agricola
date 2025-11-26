@@ -92,7 +92,7 @@ DATABASES = {
         'PORT': '3306',
     }
 }
-ALLOWED_HOSTS =config('ALLOWED_HOST', default='localhost,127.0.0.1,.onrender.com',cast=csv())
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,.onrender.com')
 
 
 # Password validation
