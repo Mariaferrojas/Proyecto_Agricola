@@ -91,14 +91,15 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
+# Read database configuration from environment variables (use .env)
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Agricola_inteligente_usexcited',
-        'USER': 'Agricola_inteligente_usexcited',
-        'PASSWORD': 'ba45a323c2dfb7c8fa7da95b9dace1c7cc540c73',
-        'HOST': 'yty14t.h.filess.io',
-        'PORT': '61000',
+        'ENGINE': env_config('DB_ENGINE', default='django.db.backends.mysql'),
+        'NAME': env_config('DB_NAME', default='Agricola_inteligente_usexcited'),
+        'USER': env_config('DB_USER', default='Agricola_inteligente_usexcited'),
+        'PASSWORD': env_config('DB_PASSWORD', default=''),
+        'HOST': env_config('DB_HOST', default='yty14t.h.filess.io'),
+        'PORT': env_config('DB_PORT', default='61000'),
     }
 }
 ALLOWED_HOSTS = ('localhost' ,'127.0.0.1','.onrender.com')
