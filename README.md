@@ -166,17 +166,30 @@ DB_PORT=
 |   CategoriaProducto | 1 ---- |      Producto        | ---- N |     Proveedor        |
 +---------------------+        +----------------------+        +----------------------+
 | id (PK)             |        | id (PK)              |        | id (PK)              |
-| nombre              |        | nombre               |        | nombre               |
-| descripcion         |        | categoria_id (FK)    |        | telefono             |
-|                     |        | stock_minimo         |        | email                |
-|                     |        | stock_maximo         |        | direccion            |
-+---------------------+        | stock_actual         |        | ciudad               |
-                               | fecha_vencimiento    |        | activo               |
-                               +----------------------+        +----------------------+
-                                         |
-                                         | 1
-                                         |
-                                         N
+| nombre              |        | codigo               |        | nombre               |
+| descripcion         |        | nombre               |        | contacto             |
++---------------------+        | descripcion          |        | telefono             |
+                               | stock_actual         |        | email                |
+                               | stock_minimo         |        | direccion            |
+                               | stock_maximo         |        | ciudad               |
+                               | unidad_medida        |        | activo               |
+                               | precio_compra        |        +----------------------+
+                               | precio_venta         |
+                               | proveedor_principal  |
+                               | ubicacion_almacen    |
+                               | lote                 |
+                               | fecha_vencimiento    |
+                               | estado               |
+                               | activo               |
+                               | fecha_creacion       |
+                               | fecha_actualizacion  |
+                               | categoria_id (FK)    |
+                               | creado_por_id (FK)   |
+                               +----------------------+
+                                          |
+                                          | 1
+                                          |
+                                          N
                                +----------------------+
                                |     Movimiento       |
                                +----------------------+
@@ -185,22 +198,54 @@ DB_PORT=
                                | tipo                 |
                                | cantidad             |
                                | fecha                |
+                               | observaciones        |
+                               | creado_por_id (FK)   |
                                +----------------------+
-                                         |
-                                         | 1
-                                         |
-                                         N
+                                          |
+                                          | 1
+                                          |
+                                          N
                                +----------------------+
                                |       Alerta         |
                                +----------------------+
                                | id (PK)              |
-                               | producto_id (FK)     |
-                               | movimiento_id (FK)   |
-                               | nivel_stock          |
+                               | tipo                 |
+                               | nivel                |
                                | estado               |
-                               | tipo_alerta          |
-                               | fecha                |
+                               | titulo               |
+                               | mensaje              |
+                               | fecha_creacion       |
+                               | fecha_lectura        |
+                               | fecha_atencion       |
+                               | fecha_resolucion     |
+                               | activa               |
+                               | auto_generada        |
+                               | repetible            |
+                               | enviar_correo        |
+                               | correo_enviado       |
+                               | fecha_envio_correo   |
+                               | creada_por_id (FK)   |
+                               | leida_por_id (FK)    |
+                               | atendida_por_id (FK) |
+                               | movimiento_id (FK)   |
+                               | producto_id (FK)     |
+                               | proveedor_id (FK)    |
                                +----------------------+
+                                          |
+                                          | 1
+                                          |
+                                          N
+                               +------------------------------+
+                               |     AlertaHistorial          |
+                               +------------------------------+
+                               | id (PK)                      |
+                               | campo_modificado             |
+                               | valor_anterior               |
+                               | valor_nuevo                  |
+                               | fecha_modificacion           |
+                               | alerta_id (FK)               |
+                               | modificado_por_id (FK)       |
+                               +------------------------------+
 ```
 ***Explicación del diagrama general***
 - El diagrama general muestra cómo se relacionan todas las aplicaciones del sistema. Un producto pertenece a una categoría y puede estar asociado a uno o varios proveedores. A partir de los productos se generan los movimientos (entradas o salidas), y a su vez, las alertas se crean en función del stock o los movimientos registrados. Representa toda la estructura principal del proyecto.
@@ -407,6 +452,7 @@ fecha_creacion
 **Integrantes - Hugo Mancera - Angelica Garcia:** desarrollan una app independiente 
 
 **Todos:** pruebas, documentación, control de versiones
+
 
 
 
