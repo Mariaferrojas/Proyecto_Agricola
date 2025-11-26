@@ -73,7 +73,7 @@ class ProductoAdmin(admin.ModelAdmin):
 @admin.register(HistorialPrecio)
 class HistorialPrecioAdmin(admin.ModelAdmin):
     list_display = ['producto', 'precio_compra_anterior', 'precio_compra_nuevo', 
-                   'precio_venta_anterior', 'precio_venta_nuevo', 'fecha_cambio', 'cambiado_por']
+                'precio_venta_anterior', 'precio_venta_nuevo', 'fecha_cambio', 'cambiado_por']
     list_filter = ['fecha_cambio', 'cambiado_por']
     search_fields = ['producto__nombre', 'producto__codigo']
     readonly_fields = ['fecha_cambio']

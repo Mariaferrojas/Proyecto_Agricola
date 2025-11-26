@@ -12,7 +12,4 @@ class Movimiento(models.Model):
     def __str__(self):
         return f"{self.tipo} - {self.producto.nombre} ({self.cantidad})"
 
-class MovimientoExtra(models.Model):
-    movimiento = models.OneToOneField(Movimiento, on_delete=models.CASCADE)
-    observacion = models.TextField(blank=True, null=True)
 

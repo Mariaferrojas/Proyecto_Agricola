@@ -67,9 +67,7 @@ class Alerta(models.Model):
     # Mensaje y detalles
     titulo = models.CharField(max_length=200)
     mensaje = models.TextField()
-    datos_adicionales = models.JSONField(
-        default=dict, blank=True
-    )  # Para almacenar datos específicos
+    
 
     # Fechas importantes
     fecha_creacion = models.DateTimeField(auto_now_add=True)
