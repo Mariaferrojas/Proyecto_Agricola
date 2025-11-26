@@ -32,7 +32,7 @@ Incluye endpoint especial para:
 - Django REST Framework
 - django-environ o python-decouple
 - drf-yasg (Swagger)
-- Base de datos (SQLite, PostgreSQL o la que el grupo defina)
+- Base de datos (Mysql)
 
 ## 🔌 Instalación y Ejecución del Proyecto
 ### 1. Clonar el repositorio
@@ -407,6 +407,7 @@ fecha_creacion
 **Integrantes - Hugo Mancera - Angelica Garcia:** desarrollan una app independiente 
 
 **Todos:** pruebas, documentación, control de versiones
+
 
 
 
