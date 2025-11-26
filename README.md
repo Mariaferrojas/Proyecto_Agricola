@@ -324,7 +324,7 @@ fecha_creacion
 - El módulo de Proveedores almacena los datos de las empresas o personas que suministran los productos agrícolas. Aquí se centraliza la información de contacto, estado y ubicación de cada proveedor.
 
 ## 📄 Documentación Swagger
--
+- https://proyecto-agricola-htrm.onrender.com/
 
 ## 🧪 Endpoints por Aplicación
 
@@ -406,6 +406,7 @@ fecha_creacion
 **Integrantes - Hugo Mancera - Angelica Garcia:** desarrollan una app independiente 
 
 **Todos:** pruebas, documentación, control de versiones
+
 
 
 
