@@ -57,13 +57,17 @@ class AlertaViewSet(viewsets.ModelViewSet):
         return AlertaDetailSerializer
 
     def perform_create(self, serializer):
-        serializer.save(creada_por=self.request.user)
+        user = (
+            self.request.user if getattr(self.request, "user", None) and self.request.user.is_authenticated else None
+        )
+        serializer.save(creada_por=user)
 
     @action(detail=True, methods=["post"])
     def marcar_leida(self, request, pk=None):
         """Marca una alerta como leída"""
         alerta = self.get_object()
-        alerta.marcar_como_leida(request.user)
+        user = request.user if getattr(request, "user", None) and request.user.is_authenticated else None
+        alerta.marcar_como_leida(user)
 
         serializer = self.get_serializer(alerta)
         return Response(serializer.data)
@@ -72,7 +76,8 @@ class AlertaViewSet(viewsets.ModelViewSet):
     def marcar_atendida(self, request, pk=None):
         """Marca una alerta como atendida"""
         alerta = self.get_object()
-        alerta.marcar_como_atendida(request.user)
+        user = request.user if getattr(request, "user", None) and request.user.is_authenticated else None
+        alerta.marcar_como_atendida(user)
 
         serializer = self.get_serializer(alerta)
         return Response(serializer.data)
@@ -81,7 +86,8 @@ class AlertaViewSet(viewsets.ModelViewSet):
     def descartar(self, request, pk=None):
         """Descarta una alerta"""
         alerta = self.get_object()
-        alerta.descartar(request.user)
+        user = request.user if getattr(request, "user", None) and request.user.is_authenticated else None
+        alerta.descartar(user)
 
         serializer = self.get_serializer(alerta)
         return Response(serializer.data)
@@ -218,7 +224,7 @@ class AlertaViewSet(viewsets.ModelViewSet):
                 mensaje=serializer.validated_data["mensaje"],
                 producto_id=serializer.validated_data.get("producto_id"),
                 proveedor_id=serializer.validated_data.get("proveedor_id"),
-                usuario=request.user,
+                usuario=(request.user if getattr(request, "user", None) and request.user.is_authenticated else None),
                 enviar_correo=serializer.validated_data.get("enviar_correo", False),
             )
 
@@ -270,7 +276,10 @@ class ConfiguracionAlertaViewSet(viewsets.ModelViewSet):
     filterset_fields = ["activa", "auto_generar"]
 
     def perform_update(self, serializer):
-        serializer.save(actualizado_por=self.request.user)
+        user = (
+            self.request.user if getattr(self.request, "user", None) and self.request.user.is_authenticated else None
+        )
+        serializer.save(actualizado_por=user)
 
     @action(detail=False, methods=["post"])
     def resetear_configuraciones(self, request):
@@ -286,7 +295,9 @@ class ConfiguracionAlertaViewSet(viewsets.ModelViewSet):
             config.dias_aviso_vencimiento = 30
             config.porcentaje_stock_critico = 20.00
             config.intervalo_revision_horas = 24
-            config.actualizado_por = request.user
+            config.actualizado_por = (
+                request.user if getattr(request, "user", None) and request.user.is_authenticated else None
+            )
             config.save()
 
         return Response({"mensaje": "Configuraciones reseteadas a valores por defecto"})

@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Proveedor
+from Productos.models import Producto
 
 
 class ProveedorSerializer(serializers.ModelSerializer):
@@ -12,7 +13,10 @@ class ProveedorSerializer(serializers.ModelSerializer):
     
     def get_total_productos(self, obj):
         """Retorna el total de productos del proveedor"""
-        return obj.producto_set.count()
+        # No existe una FK directa desde Producto a Proveedor; se usa el campo
+        # `proveedor_principal` (texto) en `Producto`. Contamos productos cuyo
+        # `proveedor_principal` coincide (case-insensitive) con el nombre del proveedor.
+        return Producto.objects.filter(proveedor_principal__iexact=obj.nombre).count()
 
     def validate_email(self, value):
         """Valida el formato del email"""

@@ -70,7 +70,7 @@ class ProductoDetailSerializer(serializers.ModelSerializer):
     dias_vencimiento = serializers.IntegerField(read_only=True)
     proximo_vencimiento = serializers.CharField(read_only=True)
     proveedor_nombre = serializers.CharField(
-        source="proveedor_principal.nombre", read_only=True, allow_null=True
+        source="proveedor_principal", read_only=True, allow_null=True
     )
     creado_por_username = serializers.CharField(
         source="creado_por.username", read_only=True, allow_null=True
