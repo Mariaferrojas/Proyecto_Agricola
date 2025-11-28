@@ -135,4 +135,4 @@ $badLoginResponse = curl -X POST "$BaseURL/login/" `
 
 Print-Response $badLoginResponse "Respuesta (Debería ser 401)"
 
-Write-Host "`n✓ Pruebas completadas. Consulta Swagger en: http://127.0.0.1:8000/swagger/" -ForegroundColor Green
+Write-Host "`n✓ Pruebas completadas. 
