@@ -48,4 +48,5 @@ urlpatterns = [
     path("api/alertas/", include("Alertas.urls")),
     path("api/productos/", include("Productos.urls")),
     path("api/movimientos/", include("movimientos.urls")),
+    path("api/auth/", include("autenticacion.urls")),
 ]
