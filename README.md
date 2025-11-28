@@ -6,6 +6,28 @@ gestionar proveedores y generar alertas automáticas cuando el stock se encuentr
 
 Este proyecto está dividido en módulos independientes, cada uno representado por una app de Django, desarrollada por diferentes integrantes del equipo bajo un flujo de trabajo Git profesional.
 
+## ⌨️ Explicación detallada de cómo se implementó JWT.
+En el proyecto se utilizó JSON Web Token (JWT) como mecanismo de autenticación para proteger los endpoints de la API. La implementación se realizó usando Django REST Framework + SimpleJWT, lo que permite manejar de forma segura el inicio de sesión, renovación de tokens y acceso a rutas protegidas.
+
+- ***Generación del token***
+Cuando un usuario inicia sesión enviando su correo o username y contraseña al endpoint /api/token/, el sistema valida las credenciales.
+
+- ***Acceso a endpoints protegidos***
+Cada vez que un cliente (Postman, Thunder Client o frontend) hace una petición a una ruta protegida, debe enviar el Access Token en el encabezado:
+`Authorization: Bearer <tu_token>`
+
+- **Si el token es válido y no ha expirado, la petición es permitida.**
+- **Si es inválido o expiró, se devuelve un error 401.**
+
+- ***Renovación del token***
+Cuando el Access Token expira, el usuario no necesita volver a iniciar sesión.
+Solo debe enviar su Refresh Token al endpoint /api/token/refresh/ y el servidor entrega un nuevo Access Token.
+Esto garantiza:
+
+- Mejor seguridad
+- Sesiones más largas
+- Menor carga del servidor en validación de credenciales
+
 ## 🖥️ Aplicaciones del proyecto
 
 1️⃣ Productos
@@ -455,6 +477,7 @@ fecha_creacion
 **Integrantes - Hugo Mancera - Angelica Garcia:** desarrollan una app independiente 
 
 **Todos:** pruebas, documentación, control de versiones
+
 
 
 
