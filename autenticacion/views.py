@@ -47,7 +47,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
     - Retorna: { "access": "<token>", "refresh": "<token>" }
     - Status: 200 si es exitoso, 401 si las credenciales son inválidas
     """
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [IsAuthenticated]
 
 
 class CustomTokenRefreshView(TokenRefreshView):
@@ -71,7 +71,7 @@ class PasswordResetRequestAPIView(APIView):
     - Retorna: { "detail": "Si el email existe, recibirás un enlace de reinicio..." }
     - Status: 200 si es exitoso o si el email no existe (por seguridad), 400 si falta email
     """
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
 
     @swagger_auto_schema(
         request_body=openapi.Schema(
