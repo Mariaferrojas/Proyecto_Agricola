@@ -6,6 +6,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework.permissions import IsAuthenticated
+
 from drf_yasg import openapi
 
 from .serializers import RegisterSerializer
@@ -23,7 +25,7 @@ class RegisterView(generics.CreateAPIView):
     """
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
         """Override para añadir manejo de errores mejorado."""
@@ -45,7 +47,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
     - Retorna: { "access": "<token>", "refresh": "<token>" }
     - Status: 200 si es exitoso, 401 si las credenciales son inválidas
     """
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [IsAuthenticated]
 
 
 class CustomTokenRefreshView(TokenRefreshView):
@@ -57,7 +59,7 @@ class CustomTokenRefreshView(TokenRefreshView):
     - Retorna: { "access": "<nuevo_token>" }
     - Status: 200 si es exitoso, 401 si el token es inválido
     """
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [IsAuthenticated]
 
 
 class PasswordResetRequestAPIView(APIView):
@@ -69,7 +71,7 @@ class PasswordResetRequestAPIView(APIView):
     - Retorna: { "detail": "Si el email existe, recibirás un enlace de reinicio..." }
     - Status: 200 si es exitoso o si el email no existe (por seguridad), 400 si falta email
     """
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(
         request_body=openapi.Schema(
@@ -138,7 +140,7 @@ class PasswordResetConfirmAPIView(APIView):
     - Retorna: { "detail": "Contraseña actualizada exitosamente" }
     - Status: 200 si es exitoso, 400 si hay error
     """
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(
         request_body=openapi.Schema(

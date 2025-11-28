@@ -9,6 +9,7 @@ from django.db.models import Q, Count, Avg, F, ExpressionWrapper, fields
 from django.db.models.functions import TruncMonth, Coalesce
 from django.utils import timezone
 from datetime import timedelta
+from rest_framework.permissions import AllowAny
 import json
 
 from .models import Alerta, ConfiguracionAlerta, HistorialAlerta

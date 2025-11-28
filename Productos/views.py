@@ -8,6 +8,7 @@ from django.db.models.functions import Coalesce
 from django.http import HttpResponse
 import csv
 from datetime import datetime, timedelta
+from rest_framework.permissions import IsAuthenticated
 
 from .models import CategoriaProducto, Producto, HistorialPrecio
 from .serializers import (
