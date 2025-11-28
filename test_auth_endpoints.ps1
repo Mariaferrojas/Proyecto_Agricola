@@ -1,6 +1,5 @@
 #!/usr/bin/env pwsh
-# Script de prueba rápida para endpoints de autenticación usando curl
-# Uso: .\test_auth_endpoints.ps1
+
 
 $BaseURL = "http://127.0.0.1:8000/api/auth"
 
