@@ -196,8 +196,6 @@ class PasswordResetConfirmAPIView(APIView):
                     {'detail': 'El token ha expirado o ya ha sido utilizado.'},
                     status=status.HTTP_400_BAD_REQUEST
                 )
-            
-            # Actualizar contraseña del usuario
             user = reset_token.user
             user.set_password(password)
             user.save()
@@ -224,7 +222,7 @@ class PasswordResetConfirmAPIView(APIView):
             )
 
 
-# Mantener el endpoint antiguo para compatibilidad
+
 class PasswordResetAPIView(PasswordResetRequestAPIView):
     """Alias para compatibilidad con versiones anteriores."""
     pass
