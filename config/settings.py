@@ -14,6 +14,7 @@ import csv
 import os
 from logging import config
 from pathlib import Path
+from datetime import timedelta
 from decouple import config as env_config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -55,6 +56,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'django_filters',
     'rest_framework.authtoken',
+    'autenticacion',
 
 ]
 
@@ -92,16 +94,26 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 # Read database configuration from environment variables (use .env)
-DATABASES = {
-    'default': {
-        'ENGINE': env_config('DB_ENGINE', default='django.db.backends.mysql'),
-        'NAME': env_config('DB_NAME', default='Agricola_inteligente_usexcited'),
-        'USER': env_config('DB_USER', default='Agricola_inteligente_usexcited'),
-        'PASSWORD': env_config('DB_PASSWORD', default=''),
-        'HOST': env_config('DB_HOST', default='yty14t.h.filess.io'),
-        'PORT': env_config('DB_PORT', default='61000'),
+import sys
+if 'test' in sys.argv:
+    # Usar SQLite para tests
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': ':memory:',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': env_config('DB_ENGINE', default='django.db.backends.mysql'),
+            'NAME': env_config('DB_NAME', default='Agricola_inteligente_usexcited'),
+            'USER': env_config('DB_USER', default='Agricola_inteligente_usexcited'),
+            'PASSWORD': env_config('DB_PASSWORD', default=''),
+            'HOST': env_config('DB_HOST', default='yty14t.h.filess.io'),
+            'PORT': env_config('DB_PORT', default='61000'),
+        }
+    }
 ALLOWED_HOSTS = ('localhost' ,'127.0.0.1','.onrender.com')
 
 # Password validation
@@ -127,7 +139,16 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
     ],
-    'DEFAULT_AUTHENTICATION_CLASSES': [],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': False,
 }
 
 
@@ -160,4 +181,18 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Email Backend Configuration for Development
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'noreply@agricola-inteligente.com'
+# Email Configuration for Development
+# For production, use SMTP backend with proper credentials
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # Para producción
+# EMAIL_HOST = env_config('EMAIL_HOST', default='smtp.gmail.com')
+# EMAIL_PORT = env_config('EMAIL_PORT', default=587)
+# EMAIL_HOST_USER = env_config('EMAIL_HOST_USER', default='')
+# EMAIL_HOST_PASSWORD = env_config('EMAIL_HOST_PASSWORD', default='')
+# EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'noreply@agricolaapi.com'
 
