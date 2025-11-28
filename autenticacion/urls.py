@@ -5,7 +5,7 @@ from .views import (
     CustomTokenRefreshView,
     PasswordResetRequestAPIView,
     PasswordResetConfirmAPIView,
-    PasswordResetAPIView,  # Para compatibilidad
+    PasswordResetAPIView, 
 )
 from rest_framework_simplejwt.views import TokenVerifyView
 

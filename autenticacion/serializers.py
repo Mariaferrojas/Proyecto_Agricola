@@ -16,7 +16,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         }
 
     def validate_username(self, value):
-        """Validar que el username sea único y tenga caracteres válidos."""
+        
         if User.objects.filter(username=value).exists():
             raise serializers.ValidationError("Este nombre de usuario ya existe.")
         if len(value) < 3:
@@ -24,13 +24,13 @@ class RegisterSerializer(serializers.ModelSerializer):
         return value
 
     def validate_email(self, value):
-        """Validar que el email sea único."""
+        
         if User.objects.filter(email=value).exists():
             raise serializers.ValidationError("Este email ya está registrado.")
         return value
 
     def validate(self, attrs):
-        """Validar que las contraseñas coincidan."""
+        
         password = attrs.get('password')
         password2 = attrs.get('password2')
         
@@ -40,7 +40,7 @@ class RegisterSerializer(serializers.ModelSerializer):
                 'password2': "Las contraseñas no coinciden."
             })
         
-        # Validar que la contraseña no sea muy simple
+        
         if password.isdigit():
             raise serializers.ValidationError({
                 'password': "La contraseña no puede ser solo números."
@@ -52,7 +52,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         validated_data.pop('password2', None)
         password = validated_data.pop('password')
         
-        # Crear usuario
+        
         user = User(**validated_data)
         user.set_password(password)
         user.save()
