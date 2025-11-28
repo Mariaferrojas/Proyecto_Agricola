@@ -47,7 +47,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
     - Retorna: { "access": "<token>", "refresh": "<token>" }
     - Status: 200 si es exitoso, 401 si las credenciales son inválidas
     """
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
 
 
 class CustomTokenRefreshView(TokenRefreshView):
